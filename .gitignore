@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Expo / React Native
+.expo/
+dist/
+web-build/
+android/
+ios/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs / coverage
+*.log
+coverage/
+
+# Generated
+*.zip
+*.bundle
