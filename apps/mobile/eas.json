@@ -1,0 +1,14 @@
+{
+  "cli": { "version": ">= 16.0.0", "appVersionSource": "remote" },
+  "build": {
+    "development": { "developmentClient": true, "distribution": "internal", "channel": "development", "environment": "development", "android": { "buildType": "apk" }, "env": { "APP_VARIANT": "development", "EXPO_PUBLIC_APP_ENV": "development" } },
+    "preview": { "distribution": "internal", "channel": "preview", "environment": "preview", "android": { "buildType": "apk" }, "env": { "APP_VARIANT": "preview", "EXPO_PUBLIC_APP_ENV": "preview" } },
+    "beta": { "distribution": "internal", "channel": "beta", "environment": "preview", "autoIncrement": true, "android": { "buildType": "apk" }, "env": { "APP_VARIANT": "beta", "EXPO_PUBLIC_APP_ENV": "beta" } },
+    "rc": { "distribution": "internal", "channel": "rc", "environment": "preview", "autoIncrement": true, "android": { "buildType": "apk" }, "env": { "APP_VARIANT": "rc", "EXPO_PUBLIC_APP_ENV": "rc", "EXPO_PUBLIC_RELEASE_CANDIDATE": "2" } },
+    "rc011": { "distribution": "internal", "channel": "rc-0-11", "environment": "preview", "autoIncrement": true, "android": { "buildType": "apk" }, "env": { "APP_VARIANT": "rc011", "EXPO_PUBLIC_APP_ENV": "rc-0-11", "EXPO_PUBLIC_APP_VERSION": "0.11.0", "EXPO_PUBLIC_RELEASE_CANDIDATE": "1" } },
+    "hotfix-validation": { "distribution": "internal", "channel": "hotfix-validation", "environment": "preview", "autoIncrement": true, "android": { "buildType": "apk" }, "env": { "APP_VARIANT": "rc", "EXPO_PUBLIC_APP_ENV": "hotfix-validation", "EXPO_PUBLIC_RELEASE_CANDIDATE": "hotfix" } },
+    "e2e-test": { "withoutCredentials": true, "distribution": "internal", "channel": "development", "environment": "development", "android": { "buildType": "apk", "image": "latest" }, "ios": { "simulator": true, "image": "latest" }, "env": { "APP_VARIANT": "development", "EXPO_PUBLIC_APP_ENV": "development" } },
+    "production": { "distribution": "store", "autoIncrement": true, "channel": "production", "environment": "production", "android": { "buildType": "app-bundle" }, "env": { "APP_VARIANT": "production", "EXPO_PUBLIC_APP_ENV": "production", "EXPO_PUBLIC_PRODUCTION_RELEASE": "1" } }
+  },
+  "submit": { "production": {} }
+}
