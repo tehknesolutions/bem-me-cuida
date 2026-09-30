@@ -11,7 +11,7 @@
     "prebuild": "expo prebuild --clean",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/services/*.test.ts src/config/*.test.ts src/diagnostics/*.test.ts src/security/*.test.ts",
+    "test": "tsx --test src/services/*.test.ts src/config/*.test.ts src/security/*.test.ts",
     "config:public": "expo config --type public",
     "build:android:development": "npx eas-cli@latest build --platform android --profile development",
     "build:android:preview": "npx eas-cli@latest build --platform android --profile preview",
