@@ -13,26 +13,9 @@ export const journalEmotionLabels: Record<JournalEmotion, string> = {
   gratitude: 'Gratidão',
   confusion: 'Confusão',
 };
-
-export const moodLabels: Record<MoodValue, string> = {
-  very_low: 'Muito baixo',
-  low: 'Baixo',
-  neutral: 'Neutro',
-  good: 'Bem',
-  very_good: 'Muito bem',
-};
-
-export type WeeklyInsightSummary = {
-  checkInCount: number;
-  journalCount: number;
-  averages: { anxiety: number | null; energy: number | null; concentration: number | null; sleepHours: number | null };
-  dominantMood: MoodValue | null;
-  topEmotions: Array<{ emotion: JournalEmotion; count: number }>;
-  therapyNotes: number;
-  prompts: string[];
-};
-
-export type ContextComparison = { id: 'sleep-anxiety' | 'intensity-anxiety' | 'strategies-intensity'; title: string; detail: string; sampleSize: number };
+export const moodLabels: Record<MoodValue, string> = { very_low: 'Muito baixo', low: 'Baixo', neutral: 'Neutro', good: 'Bem', very_good: 'Muito bem' };
+export type WeeklyInsightSummary = { checkInCount:number;journalCount:number;averages:{anxiety:number|null;energy:number|null;concentration:number|null;sleepHours:number|null};dominantMood:MoodValue|null;topEmotions:Array<{emotion:JournalEmotion;count:number}>;therapyNotes:number;prompts:string[] };
+export type ContextComparison = { id:'sleep-anxiety'|'intensity-anxiety'|'strategies-intensity';title:string;detail:string;sampleSize:number };
 function average(values:number[]):number|null{return values.length?Math.round(values.reduce((s,v)=>s+v,0)/values.length*10)/10:null}
 function dominantMood(checkIns:CheckIn[]):MoodValue|null{const counts=new Map<MoodValue,number>();for(const item of checkIns)counts.set(item.mood,(counts.get(item.mood)??0)+1);return [...counts.entries()].sort((a,b)=>b[1]-a[1])[0]?.[0]??null}
 function topEmotions(entries:JournalEntry[]){const counts=new Map<JournalEmotion,number>();for(const entry of entries)for(const emotion of entry.emotions)counts.set(emotion,(counts.get(emotion)??0)+1);return [...counts.entries()].sort((a,b)=>b[1]-a[1]||journalEmotionLabels[a[0]].localeCompare(journalEmotionLabels[b[0]],'pt-BR')).slice(0,4).map(([emotion,count])=>({emotion,count}))}
