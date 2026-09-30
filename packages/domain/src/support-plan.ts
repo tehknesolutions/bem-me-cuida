@@ -1,0 +1,7 @@
+import { z } from 'zod';
+const planItemSchema=z.string().trim().min(1).max(160); const nullableNote=z.string().trim().max(500).nullable();
+export const supportPlanSchema=z.object({id:z.uuid(),userId:z.uuid(),warningSigns:z.array(planItemSchema).max(10),immediateActions:z.array(planItemSchema).max(10),safePlaces:z.array(planItemSchema).max(8),importantReminder:nullableNote,groundingReminder:nullableNote,createdAt:z.iso.datetime(),updatedAt:z.iso.datetime()});
+export const saveSupportPlanInputSchema=supportPlanSchema.pick({warningSigns:true,immediateActions:true,safePlaces:true,importantReminder:true,groundingReminder:true});
+export const supportContactSchema=z.object({id:z.uuid(),userId:z.uuid(),name:z.string().trim().min(1).max(120),relationship:z.string().trim().max(80).nullable(),phone:z.string().trim().min(3).max(40),availabilityNotes:z.string().trim().max(240).nullable(),priority:z.number().int().min(1).max(5),active:z.boolean(),createdAt:z.iso.datetime(),updatedAt:z.iso.datetime()});
+export const createSupportContactInputSchema=supportContactSchema.pick({name:true,relationship:true,phone:true,availabilityNotes:true,priority:true});
+export type SupportPlan=z.infer<typeof supportPlanSchema>; export type SaveSupportPlanInput=z.infer<typeof saveSupportPlanInputSchema>; export type SupportContact=z.infer<typeof supportContactSchema>; export type CreateSupportContactInput=z.infer<typeof createSupportContactInputSchema>;
