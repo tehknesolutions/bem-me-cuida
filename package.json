@@ -1,0 +1,20 @@
+{
+  "name": "bem-me-cuida",
+  "version": "0.10.0",
+  "private": true,
+  "description": "Aplicativo mobile-first para acompanhamento emocional, autocuidado e organização do tratamento.",
+  "license": "UNLICENSED",
+  "packageManager": "npm@10.9.2",
+  "engines": { "node": ">=22.13.0" },
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "mobile": "npm run start --workspace @bemmecuida/mobile",
+    "mobile:android": "npm run android --workspace @bemmecuida/mobile",
+    "mobile:ios": "npm run ios --workspace @bemmecuida/mobile",
+    "mobile:web": "npm run web --workspace @bemmecuida/mobile",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "check": "npm run typecheck && npm run lint && npm run test"
+  }
+}
