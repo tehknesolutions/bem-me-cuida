@@ -7,7 +7,6 @@ import { AccessibilityProvider } from '@/accessibility/AccessibilityProvider';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { AppText } from '@/components/AppText';
 import { useDatabaseReady } from '@/hooks/use-database-ready';
-import { TechnicalObservabilityProvider } from '@/observability/TechnicalObservabilityProvider';
 import { AppLockShield } from '@/security/AppLockShield';
 import { PrivacyShield } from '@/security/PrivacyShield';
 import { SyncProvider } from '@/sync/SyncProvider';
@@ -42,7 +41,6 @@ function RootNavigator() {
       </Stack.Protected>
       <Stack.Protected guard={Boolean(auth.session) && auth.onboardingStatus === 'complete'}>
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="diagnostics" options={{ presentation: 'modal' }} />
         <Stack.Screen name="medications/index" />
         <Stack.Screen name="medications/new" />
         <Stack.Screen name="routines/index" />
@@ -53,12 +51,6 @@ function RootNavigator() {
         <Stack.Screen name="settings" />
         <Stack.Screen name="notifications-settings" />
         <Stack.Screen name="accessibility-settings" />
-        <Stack.Screen name="beta-center" />
-        <Stack.Screen name="operator-console" />
-        <Stack.Screen name="production-console" />
-        <Stack.Screen name="maintenance-console" />
-        <Stack.Screen name="governance-console" />
-        <Stack.Screen name="cycle-execution-console" />
       </Stack.Protected>
       <Stack.Screen name="crisis" options={{ presentation: 'modal' }} />
       <Stack.Screen name="legal/[document]" options={{ presentation: 'modal' }} />
@@ -74,11 +66,9 @@ export default function RootLayout() {
       <StatusBar style="dark" />
       <AuthProvider>
         <AccessibilityProvider>
-          <TechnicalObservabilityProvider>
-            <PrivacyShield />
-            <AppLockShield />
-            <SyncProvider><RootNavigator /></SyncProvider>
-          </TechnicalObservabilityProvider>
+          <PrivacyShield />
+          <AppLockShield />
+          <SyncProvider><RootNavigator /></SyncProvider>
         </AccessibilityProvider>
       </AuthProvider>
     </SafeAreaProvider>
