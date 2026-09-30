@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import type { OperatorFeedback, ReleaseBuild, ReleaseGate } from '@/data/release-operations-repository';
+import { evaluateReleasePromotion } from '@/services/release-promotion-policy';
+const passedGate:ReleaseGate={id:'gate-1',candidateId:'candidate-1',gateKey:'ci_quality',label:'CI aprovado',required:true,status:'passed',evidence:null,checkedAt:'2026-07-25T00:00:00.000Z'};
+const androidBuild:ReleaseBuild={id:'build-1',candidateId:'candidate-1',platform:'android',buildProfile:'rc',buildNumber:'100',artifactUrl:'https://example.test/build.apk',artifactSha256:null,audience:'internal',status:'available',createdAt:'2026-07-25T00:00:00.000Z'};
+const resolvedFeedback:OperatorFeedback={id:'feedback-1',category:'bug',impact:'blocking',message:'Relato sintético com dados suficientes para o teste automatizado.',status:'resolved',priority:'urgent',operatorNotes:null,candidateId:'candidate-1',appVersion:'0.10.0',appVariant:'rc',platform:'android-36',createdAt:'2026-07-25T00:00:00.000Z'};
+test('aprova promoção somente com status, gates, build e feedback resolvidos',()=>{const result=evaluateReleasePromotion({candidateStatus:'approved',gates:[passedGate],builds:[androidBuild],feedback:[resolvedFeedback]});assert.equal(result.ready,true);assert.deepEqual(result.blockers,[])});
+test('bloqueia quando gate obrigatório está pendente',()=>{const result=evaluateReleasePromotion({candidateStatus:'approved',gates:[{...passedGate,status:'pending'}],builds:[androidBuild],feedback:[]});assert.equal(result.ready,false);assert.match(result.blockers.join(' '),/gate/)});
+test('gate opcional pode ser dispensado',()=>{const result=evaluateReleasePromotion({candidateStatus:'approved',gates:[passedGate,{...passedGate,id:'gate-2',gateKey:'ios_install',required:false,status:'waived'}],builds:[androidBuild],feedback:[]});assert.equal(result.ready,true)});
+test('bloqueia sem build Android disponível',()=>{const result=evaluateReleasePromotion({candidateStatus:'approved',gates:[passedGate],builds:[{...androidBuild,platform:'ios'}],feedback:[]});assert.equal(result.ready,false);assert.match(result.blockers.join(' '),/Android/)});
+test('bloqueia feedback urgente ou de impacto bloqueador em aberto',()=>{const result=evaluateReleasePromotion({candidateStatus:'approved',gates:[passedGate],builds:[androidBuild],feedback:[{...resolvedFeedback,status:'triaged'}]});assert.equal(result.ready,false);assert.equal(result.openBlockingFeedback,1)});
+test('bloqueia candidata ainda não aprovada',()=>{const result=evaluateReleasePromotion({candidateStatus:'qa',gates:[passedGate],builds:[androidBuild],feedback:[]});assert.equal(result.ready,false);assert.match(result.blockers.join(' '),/aprovada/)});
