@@ -1,0 +1,14 @@
+{
+  "name": "@bemmecuida/domain",
+  "version": "0.10.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/*.test.ts"
+  },
+  "dependencies": { "zod": "^4.0.0" },
+  "devDependencies": { "@types/node": "^24.0.0", "typescript": "~6.0.3", "tsx": "^4.20.6" }
+}
