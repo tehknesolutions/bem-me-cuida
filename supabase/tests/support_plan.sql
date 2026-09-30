@@ -1,0 +1,14 @@
+begin;
+select plan(10);
+select has_table('public','support_plans','support_plans existe');
+select has_table('public','support_contacts','support_contacts existe');
+select ok(exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='support_plans' and c.relrowsecurity),'RLS ativa em support_plans');
+select ok(exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='support_contacts' and c.relrowsecurity),'RLS ativa em support_contacts');
+select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='support_plans' and policyname='support_plans_select_own'),'policy plano select existe');
+select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='support_contacts' and policyname='support_contacts_select_own'),'policy contato select existe');
+select has_function('public','sync_care_record',array['text','jsonb'],'sync_care_record existe');
+select has_function('public','pull_care_records',array['text','timestamp with time zone','uuid','integer'],'pull_care_records existe');
+select has_index('public','support_contacts','support_contacts_user_priority_idx','índice de contatos existe');
+select col_is_pk('public','support_plans','id','plano possui chave primária');
+select * from finish();
+rollback;
