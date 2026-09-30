@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { createJournalEntryInputSchema, journalEntrySchema, updateJournalEntryInputSchema } from './journal';
+const valid = { title: 'Depois da consulta', body: 'Consegui perceber melhor o que aumentou minha ansiedade hoje.', emotions: ['anxiety', 'hope'], intensity: 6, triggers: ['Conversa difícil'], strategies: ['Respiração', 'Pausa curta'], forTherapy: true, linkedCheckInId: null } as const;
+const id = '11111111-1111-4111-8111-111111111111'; const userId = '22222222-2222-4222-8222-222222222222'; const now = '2026-07-25T12:00:00.000Z';
+test('diário aceita entrada estruturada válida', () => { assert.equal(createJournalEntryInputSchema.safeParse(valid).success, true); });
+test('diário exige pelo menos uma emoção', () => { assert.equal(createJournalEntryInputSchema.safeParse({ ...valid, emotions: [] }).success, false); });
+test('diário limita o texto principal', () => { assert.equal(createJournalEntryInputSchema.safeParse({ ...valid, body: 'a'.repeat(5001) }).success, false); });
+test('edição exige identificador válido', () => { assert.equal(updateJournalEntryInputSchema.safeParse({ ...valid, id }).success, true); assert.equal(updateJournalEntryInputSchema.safeParse({ ...valid, id: 'inválido' }).success, false); });
+test('registro aceita tombstone sincronizável', () => { assert.equal(journalEntrySchema.safeParse({ ...valid, id, userId, occurredAt: now, createdAt: now, updatedAt: now, deletedAt: now }).success, true); });
