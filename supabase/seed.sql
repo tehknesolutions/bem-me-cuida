@@ -1,0 +1,2 @@
+-- O seed não cria dados de saúde fictícios por padrão.
+-- Use fixtures isoladas nos testes automatizados, nunca dados reais.
