@@ -1,0 +1,4 @@
+import { z } from 'zod';
+export const profileSchema=z.object({id:z.uuid(),displayName:z.string().trim().min(1).max(80),timezone:z.string().trim().min(1).max(80),locale:z.string().trim().min(2).max(20),onboardingCompletedAt:z.iso.datetime().nullable()});
+export const completeOnboardingInputSchema=z.object({displayName:z.string().trim().min(2,'Informe como deseja ser chamado.').max(80),consents:z.object({terms:z.literal(true,{error:'É necessário aceitar os Termos de Uso.'}),privacy:z.literal(true,{error:'É necessário aceitar a Política de Privacidade.'}),healthData:z.literal(true,{error:'É necessário autorizar o tratamento dos dados de saúde.'}),analytics:z.boolean(),aiProcessing:z.boolean()})});
+export type Profile=z.infer<typeof profileSchema>; export type CompleteOnboardingInput=z.infer<typeof completeOnboardingInputSchema>;
